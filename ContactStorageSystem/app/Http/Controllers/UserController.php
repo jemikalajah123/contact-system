@@ -130,6 +130,7 @@ class UserController extends Controller
         ->get();
 
         return $this->successResponse($user);
+        
     }
 
    
