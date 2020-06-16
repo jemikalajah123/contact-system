@@ -49,7 +49,6 @@ class UserController extends Controller
     public function registerUser(Request $request)
     {
 
-        $this->statusController->store($request);
 
         $rules = [
             'name' => 'required|regex:/(?=^.{0,150}$)^[a-zA-Z-]+\s[a-zA-Z-]+$/|max:255', //requires your first and last name
@@ -63,6 +62,7 @@ class UserController extends Controller
 
         $this->validate($request, $rules);
         $user = User::create($request->all());
+        $this->statusController->store($request);
         $user = User::findorfail($user['id']);
         $user['status_id'] = $this->statusController->status_id;
         $user ->save();

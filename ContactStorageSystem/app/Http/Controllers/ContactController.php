@@ -47,8 +47,6 @@ class ContactController extends Controller
     public function registerContact(Request $request)
     {
 
-        $this->statusController->store($request);
-
         $rules = [
             'user_id' => 'required|max:255',
             'name' => 'required|regex:/(?=^.{0,150}$)^[a-zA-Z-]+\s[a-zA-Z-]+$/|max:255', //requires your first and last name 
@@ -59,6 +57,8 @@ class ContactController extends Controller
 
         $this->validate($request, $rules);
         $user = Contact::create($request->all());
+        $this->statusController->store($request);
+        
         $user = Contact::findorfail($user['id']);
         $user['status_id'] =  $this->statusController->status_id;
         $user ->save();
